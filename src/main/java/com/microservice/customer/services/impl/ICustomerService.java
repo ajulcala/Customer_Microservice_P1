@@ -8,6 +8,8 @@ import com.microservice.customer.repositories.CustomerRepository;
 import com.microservice.customer.repositories.CustomerTypeRepository;
 import com.microservice.customer.services.CustomerService;
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,14 +36,14 @@ public class ICustomerService implements CustomerService {
                 .name(dto.getName())
                 .lastName(dto.getLastName())
                 .dni(dto.getDni())
-                .customerType(customerType.get_id())
+                .customerType(new ObjectId(customerType.get_id()))
                 .build();
-
         customer = customerRepository.save(customer);
 
         //Map response
         ResponseCustomerDto customerResponse = new ResponseCustomerDto();
         customerResponse = modelMapper.map(customer,ResponseCustomerDto.class);
+        customerResponse.setCustomerType(customerType.getType());
 
         return customerResponse;
     }

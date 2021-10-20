@@ -2,6 +2,7 @@ package com.microservice.customer.entities;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,5 +16,5 @@ import javax.validation.constraints.NotEmpty;
 public class Customer extends  Person{
 
     @Field("customer_type")
-    private String customerType;
+    private ObjectId customerType;
 }

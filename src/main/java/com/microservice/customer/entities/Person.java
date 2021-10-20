@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class Person {
     @Id()
-    private String _id;
+    private ObjectId _id;
 
     @NotEmpty
     private String name;

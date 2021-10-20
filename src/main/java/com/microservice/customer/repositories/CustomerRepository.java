@@ -1,9 +1,9 @@
-package com.microservice.customer.repository;
+package com.microservice.customer.repositories;
 
 import com.microservice.customer.entities.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository()
+@Repository
 public interface CustomerRepository extends MongoRepository<Customer, String> {
 }

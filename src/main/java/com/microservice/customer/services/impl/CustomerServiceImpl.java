@@ -7,14 +7,19 @@ import com.microservice.customer.entities.dtos.CreateCustomerDto;
 import com.microservice.customer.entities.dtos.ResponseCustomerDto;
 import com.microservice.customer.repositories.ICustomerRepository;
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
+@Slf4j
 public class CustomerServiceImpl implements com.microservice.customer.services.ICustomerService {
 
     @Autowired
@@ -47,6 +52,7 @@ public class CustomerServiceImpl implements com.microservice.customer.services.I
                     .dni(dto.getDni())
                     .type(dto.getType())
                     .build();
+            log.info(customer.getDni());
             customer = customerRepository.save(customer);
 
             //Map response
@@ -59,6 +65,28 @@ public class CustomerServiceImpl implements com.microservice.customer.services.I
             throw  new NotFoundException(("CUSTOMER_TYPE_NOT_FOUND"));
         }
 
+    }
+
+    @Override
+    public List<ResponseCustomerDto> findCustomersByDni(List<String> dnis) throws  Exception{
+        //Get customers from database
+        List<ResponseCustomerDto> customerResponseArray = new ArrayList<>();
+        dnis.forEach(dni->{
+            Optional<Customer> customer = customerRepository.findByDni(dni);
+            if (customer.isPresent()){
+                //Map customer
+                ResponseCustomerDto customerResponse = new ResponseCustomerDto();
+                customerResponse = modelMapper.map(customer.get(),ResponseCustomerDto.class);
+                customerResponseArray.add(customerResponse);
+            }
+        });
+        //Customer customer = customerRepository.findByDni(dni)
+          //      .orElseThrow(()->new NotFoundException("CUSTOMER_NOT FOUND"));
+
+
+        //ResponseCustomerDto customerResponse = new ResponseCustomerDto();
+        //customerResponse = modelMapper.map(customer,ResponseCustomerDto.class);
+        return customerResponseArray;
     }
 
 

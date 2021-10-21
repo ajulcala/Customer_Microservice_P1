@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CustomerTypeRepository extends MongoRepository<CustomerType,String> {
+public interface ICustomerTypeRepository extends MongoRepository<CustomerType,String> {
 
     Optional<CustomerType> findByType(String type);
 }

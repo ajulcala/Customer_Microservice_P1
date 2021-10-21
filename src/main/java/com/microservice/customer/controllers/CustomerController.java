@@ -1,14 +1,11 @@
 package com.microservice.customer.controllers;
 
-import com.microservice.customer.entities.Customer;
 import com.microservice.customer.entities.dtos.CreateCustomerDto;
 import com.microservice.customer.entities.dtos.ResponseCustomerDto;
-import com.microservice.customer.services.CustomerService;
+import com.microservice.customer.services.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
@@ -17,7 +14,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    CustomerService customerService;
+    ICustomerService customerService;
 
     @PostMapping()
     public ResponseCustomerDto createCustomer(@Validated @RequestBody CreateCustomerDto dto) throws  Exception{

@@ -4,24 +4,22 @@ import com.microservice.customer.entities.Customer;
 import com.microservice.customer.entities.CustomerType;
 import com.microservice.customer.entities.dtos.CreateCustomerDto;
 import com.microservice.customer.entities.dtos.ResponseCustomerDto;
-import com.microservice.customer.repositories.CustomerRepository;
-import com.microservice.customer.repositories.CustomerTypeRepository;
-import com.microservice.customer.services.CustomerService;
+import com.microservice.customer.repositories.ICustomerRepository;
+import com.microservice.customer.repositories.ICustomerTypeRepository;
 import javassist.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ICustomerService implements CustomerService {
+public class CustomerServiceImpl implements com.microservice.customer.services.ICustomerService {
 
     @Autowired
-    CustomerRepository customerRepository;
+    ICustomerRepository customerRepository;
 
     @Autowired
-    CustomerTypeRepository customerTypeRepository;
+    ICustomerTypeRepository customerTypeRepository;
 
     public static final ModelMapper modelMapper=new ModelMapper();
 

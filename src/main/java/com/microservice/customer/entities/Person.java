@@ -2,6 +2,7 @@ package com.microservice.customer.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.bson.types.ObjectId;
@@ -11,19 +12,19 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-@SuperBuilder
-@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
     @Id()
-    private ObjectId _id;
+    private final ObjectId _id;
 
     @NotEmpty
-    private String name;
+    private final String name;
 
     @Field("last_name")
     @NotEmpty
-    private String lastName;
+    private final String lastName;
 
     @NotEmpty
-    private String dni;
+    private final String dni;
+
 }

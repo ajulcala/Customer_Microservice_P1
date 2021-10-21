@@ -3,18 +3,23 @@ package com.microservice.customer.entities;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotEmpty;
 
 @Document(collection = "customers")
-@Data
-@SuperBuilder
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class Customer extends  Person{
 
-    @Field("customer_type_id")
-    private ObjectId customerTypeId;
+    private CustomerType type;
+
+    @Builder
+    public Customer(ObjectId _id,String name,String lastName,String dni,CustomerType type) {
+        super(_id, name,lastName,dni);
+        this.type = type;
+    }
+
 }

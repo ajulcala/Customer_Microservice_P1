@@ -1,5 +1,6 @@
 package com.microservice.customer.entities.dtos;
 
+import com.microservice.customer.entities.CustomerType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,5 @@ public class ResponseCustomerDto {
 
     private String dni;
 
-    private String customerType;
+    private CustomerType type;
 }

@@ -36,7 +36,7 @@ public class ICustomerService implements CustomerService {
                 .name(dto.getName())
                 .lastName(dto.getLastName())
                 .dni(dto.getDni())
-                .customerType(new ObjectId(customerType.get_id()))
+                .customerTypeId(new ObjectId(customerType.get_id()))
                 .build();
         customer = customerRepository.save(customer);
 

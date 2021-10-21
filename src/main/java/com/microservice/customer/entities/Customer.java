@@ -15,6 +15,6 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 public class Customer extends  Person{
 
-    @Field("customer_type")
-    private ObjectId customerType;
+    @Field("customer_type_id")
+    private ObjectId customerTypeId;
 }

@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ICustomerService {
     ResponseCustomerDto createCustomer(CreateCustomerDto dto) throws Exception;
+    List<ResponseCustomerDto> createCustomers(List<CreateCustomerDto> dtos) throws Exception;
     List<ResponseCustomerDto> findCustomersByDni(List<String> dnis) throws  Exception;
 }

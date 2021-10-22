@@ -26,6 +26,11 @@ public class CustomerController {
         return customerService.createCustomer(dto);
     }
 
+    @PostMapping("/createCustomers")
+    public List<ResponseCustomerDto> createCustomers(@Validated @RequestBody List<CreateCustomerDto> dtos) throws  Exception{
+        return customerService.createCustomers(dtos);
+    }
+
     @PostMapping("/findCustomers")
     public List<ResponseCustomerDto> getCustomerByDni(@Validated @RequestBody List<String> dnis) throws Exception{
         try{

@@ -2,16 +2,17 @@ package com.microservice.customer.services.impl;
 
 import com.microservice.customer.config.AppConfig;
 import com.microservice.customer.entities.Customer;
-import com.microservice.customer.entities.CustomerType;
 import com.microservice.customer.entities.dtos.CreateCustomerDto;
 import com.microservice.customer.entities.dtos.ResponseCustomerDto;
 import com.microservice.customer.repositories.ICustomerRepository;
+import com.microservice.customer.services.ICustomerService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @Slf4j
-public class CustomerServiceImpl implements com.microservice.customer.services.ICustomerService {
+public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     ICustomerRepository customerRepository;
@@ -40,6 +41,7 @@ public class CustomerServiceImpl implements com.microservice.customer.services.I
     }
 
     @Override
+    @Transactional()
     public ResponseCustomerDto createCustomer(CreateCustomerDto dto) throws Exception {
         //Validate if customer type exists
         boolean typeFound = validateCustomerType(dto.getType().getName());
@@ -52,8 +54,10 @@ public class CustomerServiceImpl implements com.microservice.customer.services.I
                     .dni(dto.getDni())
                     .type(dto.getType())
                     .build();
-            log.info(customer.getDni());
+
             customer = customerRepository.save(customer);
+
+            //System.out.println(10/0);
 
             //Map response
             ResponseCustomerDto customerResponse = new ResponseCustomerDto();
@@ -65,6 +69,21 @@ public class CustomerServiceImpl implements com.microservice.customer.services.I
             throw  new NotFoundException(("CUSTOMER_TYPE_NOT_FOUND"));
         }
 
+    }
+
+    @Override
+    @Transactional()
+    public List<ResponseCustomerDto> createCustomers(List<CreateCustomerDto> dtos) throws Exception {
+        List<ResponseCustomerDto> customers = new ArrayList<>();
+        dtos.forEach(dto->{
+            try{
+                ResponseCustomerDto response = createCustomer(dto);
+                customers.add(response);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        return customers;
     }
 
     @Override

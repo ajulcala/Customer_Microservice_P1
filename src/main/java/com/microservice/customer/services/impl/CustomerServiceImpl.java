@@ -2,9 +2,12 @@ package com.microservice.customer.services.impl;
 
 import com.microservice.customer.config.AppConfig;
 import com.microservice.customer.entities.Customer;
+import com.microservice.customer.entities.Signer;
 import com.microservice.customer.entities.dtos.CreateCustomerDto;
+import com.microservice.customer.entities.dtos.CreateSignerDto;
 import com.microservice.customer.entities.dtos.ResponseCustomerDto;
 import com.microservice.customer.repositories.ICustomerRepository;
+import com.microservice.customer.repositories.ISignerRepository;
 import com.microservice.customer.services.ICustomerService;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +28,9 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     ICustomerRepository customerRepository;
+
+    @Autowired
+    ISignerRepository signerRepository;
 
     public static final ModelMapper modelMapper=new ModelMapper();
 
@@ -99,13 +105,27 @@ public class CustomerServiceImpl implements ICustomerService {
                 customerResponseArray.add(customerResponse);
             }
         });
-        //Customer customer = customerRepository.findByDni(dni)
-          //      .orElseThrow(()->new NotFoundException("CUSTOMER_NOT FOUND"));
-
-
-        //ResponseCustomerDto customerResponse = new ResponseCustomerDto();
-        //customerResponse = modelMapper.map(customer,ResponseCustomerDto.class);
         return customerResponseArray;
+    }
+
+    @Override
+    public List<Signer> createSigners(List<CreateSignerDto> dtos) throws Exception {
+        List<Signer> signers = new ArrayList<>();
+        dtos.forEach(dto->{
+            try{
+//                Signer signer = modelMapper.map(dto,Signer.class);
+                Signer signer = Signer.builder()
+                        .name(dto.getName())
+                        .lastName(dto.getLastName())
+                        .dni(dto.getDni())
+                        .build();
+                signer = signerRepository.save(signer);
+                signers.add(signer);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        return signers;
     }
 
 

@@ -1,6 +1,8 @@
 package com.microservice.customer.controllers;
 
+import com.microservice.customer.entities.Signer;
 import com.microservice.customer.entities.dtos.CreateCustomerDto;
+import com.microservice.customer.entities.dtos.CreateSignerDto;
 import com.microservice.customer.entities.dtos.ResponseCustomerDto;
 import com.microservice.customer.services.ICustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,11 @@ public class CustomerController {
     @PostMapping("/createCustomers")
     public List<ResponseCustomerDto> createCustomers(@Validated @RequestBody List<CreateCustomerDto> dtos) throws  Exception{
         return customerService.createCustomers(dtos);
+    }
+
+    @PostMapping("/createSigners")
+    public List<Signer> createSigners(@Validated @RequestBody List<CreateSignerDto> dtos) throws  Exception{
+        return customerService.createSigners(dtos);
     }
 
     @PostMapping("/findCustomers")

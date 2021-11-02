@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -39,9 +40,9 @@ public class CustomerController {
     }
 
     @PostMapping("/findCustomers")
-    public List<ResponseCustomerDto> getCustomerByDni(@Validated @RequestBody List<String> dnis) throws Exception{
+    public Flux<ResponseCustomerDto> getCustomerByDni(@Validated @RequestBody List<String> dnis) throws Exception{
         try{
-            return customerService.findCustomersByDni(dnis);
+            return Flux.fromIterable( customerService.findCustomersByDni(dnis));
         } catch (Exception e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "CUSTOMER_NOT_FOUND"
